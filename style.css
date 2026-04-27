@@ -1,0 +1,240 @@
+/* --- CSS RESET & BASE STYLES --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    
+    /* Warna Dasar */
+    background-color: #314a75;
+    
+    /* Background Image Candi Bentar + Gradien Senja */
+    /* Pastikan nama gambar di folder Anda adalah huruf kecil: bg1.png */
+    background-image: 
+        url('bg1.png'),
+        linear-gradient(135deg, rgba(49, 74, 117, 0.9) 0%, rgba(225, 112, 29, 0.9) 100%);
+        
+    /* Pengaturan Posisi Gambar */
+    background-size: cover;          
+    background-position: center bottom; 
+    background-repeat: no-repeat;    
+    background-attachment: fixed;    
+}
+
+.main-wrapper {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%;
+}
+
+/* --- CONTAINER UTAMA --- */
+.container {
+    /* Gradasi Hangat & Tekstur Batik (Opasitas diatur ke 0.8 atau 80%) */
+    background: linear-gradient(135deg, rgba(255, 248, 236, 0.6) 0%, rgba(255, 226, 196, 0.6) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23b91c1c' fill-opacity='0.04'%3E%3Cpath d='M20 0c11 0 20 9 20 20s-9 20-20 20S0 31 0 20 9 0 20 0zm0 2c-9.9 0-18 8.1-18 18s8.1 18 18 18 18-8.1 18-18S29.9 2 20 2zm0 8c5.5 0 10 4.5 10 10s-4.5 10-10 10-10-4.5-10-10 4.5-10 10-10zm0 2c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8z'/%3E%3C/g%3E%3C/svg%3E");
+    
+    width: 90%;
+    max-width: 400px;
+    min-height: 80vh;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3); 
+    padding: 35px 25px 15px 25px; 
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    backdrop-filter: blur(8px); /* Sedikit diturunkan agar background lebih jelas */
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    
+    animation: float 8s ease-in-out infinite;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(0.5deg); }
+}
+
+.content-wrapper { flex-grow: 1; }
+
+/* --- ELEMENTS & UI ANIMATIONS --- */
+.screen { display: none; animation: fadeIn 0.6s ease-out; }
+.screen.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+h1 { color: #b91c1c; font-size: 30px; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(185, 28, 28, 0.1); font-weight: 800;}
+.subtitle { color: #57534e; font-size: 14px; margin-bottom: 25px; font-weight: 600;}
+
+.header-container {
+        display: flex;
+        flex-direction: column;   /* KODE BARU: Mengubah arah susunan menjadi atas-bawah */
+        align-items: center;      
+        justify-content: center;  
+        gap: 8px;                 /* Jarak antara logo dan judul saya kurangi sedikit agar lebih pas */
+        margin-bottom: 5px;       
+    }
+
+    .app-logo {
+        width: 250px;              /* Logonya saya perbesar sedikit agar lebih proporsional di tengah atas */
+        height: auto;
+        object-fit: contain;      
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); 
+    }
+
+    .header-container h1 {
+        margin-bottom: 0; 
+    }
+input, select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 18px;
+    border: 2px solid #e7e5e4;
+    border-radius: 14px;
+    font-size: 16px;
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #444;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #b91c1c;
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.1);
+}
+
+.btn-main {
+    background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+    color: white;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 12px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(185, 28, 28, 0.3);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-main:hover { 
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(185, 28, 28, 0.4);
+}
+.btn-main:active { transform: translateY(1px); }
+.btn-main:disabled { background: #a8a29e; cursor: not-allowed; box-shadow: none; transform: none; }
+
+.btn-secondary { background: linear-gradient(135deg, #57534e 0%, #292524 100%); box-shadow: 0 6px 20px rgba(87, 83, 78, 0.3); }
+.btn-secondary:hover { box-shadow: 0 10px 25px rgba(87, 83, 78, 0.4); }
+
+ul { list-style-type: none; padding: 0; text-align: left; max-height: 180px; overflow-y: auto; margin-bottom: 15px;}
+
+li { 
+    background: rgba(255, 255, 255, 0.85); 
+    padding: 10px 18px; 
+    margin-bottom: 10px; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03); 
+    border-left: 5px solid #b91c1c; 
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+}
+li:hover { transform: translateX(3px); background: white; }
+
+.btn-delete {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover { background: #b91c1c; color: white; transform: scale(1.1) rotate(90deg); }
+
+.swipe-area {
+    background: linear-gradient(to bottom, rgba(255,245,245,0.8), rgba(254,226,226,0.8));
+    border: 2px dashed #fca5a5;
+    border-radius: 18px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s;
+}
+.swipe-area:hover { border-color: #b91c1c; background: rgba(254,226,226,0.9); }
+
+.secret-word { font-size: 34px; font-weight: 900; color: #7f1d1d; display: none; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.1);}
+
+.timer-display { font-size: 60px; font-weight: 800; color: #b91c1c; margin: 35px 0; text-shadow: 0 4px 12px rgba(185, 28, 28, 0.2); font-variant-numeric: tabular-nums;}
+
+.result-box { text-align: left; background: rgba(255, 255, 255, 0.7); padding: 22px; border-radius: 16px; margin-bottom: 30px; border: 1px solid #e7e5e4; }
+
+/* Utilities */
+.text-dark { color: #444; }
+.instruction-text { color: #7f1d1d; font-weight: 600; font-size: 15px; line-height: 1.6; }
+.result-title { color: #b91c1c; margin-top: 5px; }
+.bikul-name { font-size: 38px; text-transform: uppercase; font-weight: 800; }
+.result-text { margin-top: 0; font-size: 15px; }
+.result-text-bottom { margin-bottom: 0; font-size: 15px; }
+.bikul-word-text { color: #b91c1c; font-weight: bold; font-size: 17px; }
+.warga-word-text { font-weight: bold; font-size: 17px; }
+
+/* --- LINK EMAIL & FOOTER --- */
+.feedback-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #7f1d1d;
+    text-decoration: none;
+    font-weight: 600;
+    opacity: 0.7;
+    transition: all 0.3s;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+}
+.feedback-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* Footer di luar kotak */
+.app-footer {
+    margin-top: 20px;
+    font-size: 10px;
+    color: rgba(187, 116, 36, 0.95); /* Warna putih agar kontras dengan BG Candi */
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(102, 99, 99, 0.6); /* Bayangan hitam kuat agar teks terbaca */
+}

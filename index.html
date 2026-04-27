@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sire Bikul Ne? - V1.0.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="container">
+        <div class="content-wrapper">
+            <div id="screen-setup" class="screen active">
+                <div class="header-container">
+                    <img src="logo.png" alt="Logo Sire Bikul Ne" class="app-logo">
+                    <h1>Sire Bikul Ne?</h1>
+                </div>
+                <p class="subtitle">Siapa Tikusnya di Antara Kita?</p>
+                
+              <select id="categorySelect">
+                    <option value="Semua">🎲 Semua Kategori (Acak)</option>
+                    <option value="Hewan">🦁 Kategori: Hewan</option>
+                    <option value="Tempat di Bali">🏖️ Kategori: Tempat di Bali</option>
+                    <option value="Makanan">🍲 Kategori: Makanan</option>
+                    <option value="Pekerjaan">💼 Kategori: Pekerjaan</option>
+                    <option value="Benda & Pakaian">👘 Kategori: Benda & Pakaian</option>
+                    <option value="Kampus & IT">💻 Kategori: Kampus & IT</option>
+                    <option value="Aktivitas">🎮 Kategori: Aktivitas</option>
+                </select>
+
+                <input type="text" id="playerName" placeholder="Ketik Nama Pemain...">
+                <button class="btn-main" onclick="addPlayer()">Tambah Pemain</button>
+                <ul id="playerList"></ul>
+                <button class="btn-main" onclick="startGame()" style="margin-top: 15px;" id="startBtn" disabled>Mulai Game</button>
+            </div>
+
+            <div id="screen-peek" class="screen">
+                <h2 id="turnDisplay" class="text-dark">Giliran: -</h2>
+                <p class="subtitle">Pastikan pemain lain tidak mengintip layar ini!</p>
+                
+                <div class="swipe-area" id="swipeArea">
+                    <p id="swipeInstruction" class="instruction-text">↑ Geser ke atas (di HP)<br><br>Atau klik di sini (di Laptop)<br>untuk melihat kata rahasia</p>
+                    <div id="secretWord" class="secret-word">KATANYA</div>
+                </div>
+
+                <button class="btn-main" id="btnDone" onclick="nextTurn()" style="display: none;">Sembunyikan & Lanjut</button>
+            </div>
+
+            <div id="screen-timer" class="screen">
+                <h1>Waktu Diskusi!</h1>
+                <p class="subtitle">Berikan clue aman Anda tanpa menyebutkan kata yang sebenarnya. Cari tahu siapa Bikul-nya!</p>
+                <div id="timer" class="timer-display">15:00</div>
+                <button class="btn-main btn-secondary" onclick="endGame()">Akhiri Diskusi & Lihat Hasil</button>
+            </div>
+
+            <div id="screen-result" class="screen">
+                <h1>Hasil Akhir</h1>
+                <h2 class="result-title">Bikulnya adalah: <br><span id="bikulName" class="bikul-name"></span>!</h2>
+                <div class="result-box">
+                    <p class="result-text"><strong>Kata Bikul:</strong> <span id="bikulWord" class="bikul-word-text"></span></p>
+                    <p class="result-text-bottom"><strong>Kata Warga:</strong> <span id="wargaWord" class="warga-word-text"></span></p>
+                </div>
+                <button class="btn-main" onclick="resetGame()">Main Lagi</button>
+            </div>
+        </div>
+
+        <a href="mailto:rangga.sidemen@gmail.com" class="feedback-link">Kirim Masukkan</a>
+    </div>
+
+    <div class="app-footer">
+        ©2026 SBN.
+        Dibuat oleh Rangga Sidemen &bull; V1.0.0
+    </div>
+</div>
+
+<script>
+  // --- DATABASE TERSTRUKTUR SKALA BESAR (UPDATE 2.0) ---
+    const wordBank = {
+        "Hewan": [
+            { warga: "Kucing", bikul: "Harimau" },
+            { warga: "Sapi", bikul: "Kambing" },
+            { warga: "Ayam", bikul: "Bebek" },
+            { warga: "Anjing", bikul: "Serigala" },
+            { warga: "Tikus", bikul: "Tupai" },
+            { warga: "Cicak", bikul: "Tokek" },
+            { warga: "Ular", bikul: "Belut" },
+            { warga: "Buaya", bikul: "Biawak" },
+            { warga: "Kupu-kupu", bikul: "Lebah" },
+            { warga: "Burung Hantu", bikul: "Kelelawar" },
+            { warga: "Monyet", bikul: "Orang Utan" },
+            { warga: "Ikan Hiu", bikul: "Ikan Paus" },
+            { warga: "Katak", bikul: "Kodok" },
+            { warga: "Laba-laba", bikul: "Kalajengking" },
+            { warga: "Singa", bikul: "Macan Tutul" }
+        ],
+        "Tempat di Bali": [
+            { warga: "Pantai Kuta", bikul: "Pantai Sanur" },
+            { warga: "GWK", bikul: "Uluwatu" },
+            { warga: "Denpasar", bikul: "Jimbaran" },
+            { warga: "Ubud", bikul: "Kintamani" },
+            { warga: "Tanah Lot", bikul: "Pura Besakih" },
+            { warga: "Gunung Batur", bikul: "Gunung Agung" },
+            { warga: "Danau Beratan", bikul: "Danau Batur" },
+            { warga: "Nusa Penida", bikul: "Nusa Lembongan" },
+            { warga: "Pasar Badung", bikul: "Pasar Sukawati" },
+            { warga: "Canggu", bikul: "Seminyak" },
+            { warga: "Living World", bikul: "Level 21" },
+            { warga: "Universitas Udayana", bikul: "ISI Bali" },
+            { warga: "Kampus Sudirman", bikul: "Kampus Jimbaran" },
+            { warga: "Bedugul", bikul: "Kintamani" },
+            { warga: "Kuta", bikul: "Legian" }
+        ],
+        "Makanan": [
+            { warga: "Nasi Jinggo", bikul: "Nasi Bakar" },
+            { warga: "Sate Lilit", bikul: "Sate Babi" },
+            { warga: "Lalapan Lele", bikul: "Lalapan Ayam" },
+            { warga: "Lawar Plek", bikul: "Lawar Merah" },
+            { warga: "Babi Guling", bikul: "Ayam Betutu" },
+            { warga: "Jaja Laklak", bikul: "Jaja Klepon" },
+            { warga: "Es Daluman", bikul: "Es Campur" },
+            { warga: "Rujak Kuah Pindang", bikul: "Rujak Gula" },
+            { warga: "Tum Babi", bikul: "Tum Ayam" },
+            { warga: "Nasi Goreng", bikul: "Mie Goreng" },
+            { warga: "Cumi Hitam", bikul: "Cumi Asam Manis" },
+            { warga: "Sashimi", bikul: "Sushi" },
+            { warga: "Soto Babi", bikul: "Soto Sapi" },
+            { warga: "Bakso", bikul: "Mie Ayam" },
+            { warga: "Terang Bulan", bikul: "Martabak Telur" }
+        ],
+        "Pekerjaan": [
+            { warga: "Petani", bikul: "Nelayan" },
+            { warga: "Dokter", bikul: "Perawat" },
+            { warga: "Polisi", bikul: "Tentara" },
+            { warga: "Guru", bikul: "Dosen" },
+            { warga: "Penari Bali", bikul: "Penyanyi" },
+            { warga: "Balian", bikul: "Dokter" },
+            { warga: "Sopir", bikul: "Tukang Ojek" },
+            { warga: "Pecalang", bikul: "Satpam" },
+            { warga: "Programmer", bikul: "Desainer" },
+            { warga: "Kasir", bikul: "Pelayan" }
+        ],
+        "Benda & Pakaian": [
+            { warga: "Udeng", bikul: "Peci" },
+            { warga: "Kamen", bikul: "Sarung" },
+            { warga: "Kebaya", bikul: "Kemeja" },
+            { warga: "Saput", bikul: "Selendang" },
+            { warga: "Keris", bikul: "Pedang" },
+            { warga: "Dupa", bikul: "Menyan" },
+            { warga: "Canang", bikul: "Banten" },
+            { warga: "Arak", bikul: "Tuak" },
+            { warga: "Laptop", bikul: "Komputer" },
+            { warga: "Smartphone", bikul: "Tablet" }
+        ],
+        "Kampus & IT": [
+            { warga: "Figma", bikul: "Canva" },
+            { warga: "Google Colab", bikul: "Jupyter Notebook" },
+            { warga: "Skripsi", bikul: "Tugas Akhir" },
+            { warga: "Dosen Pembimbing", bikul: "Dosen Penguji" },
+            { warga: "Semester Tua", bikul: "Mahasiswa Baru" },
+            { warga: "KRS", bikul: "KHS" },
+            { warga: "Magang", bikul: "KKN" },
+            { warga: "Coding", bikul: "Debugging" },
+            { warga: "Server", bikul: "Database" },
+            { warga: "Batas Waktu (Deadline)", bikul: "Ujian" }
+        ],
+        "Aktivitas": [
+            { warga: "Main Game", bikul: "Nonton YouTube" },
+            { warga: "Trading Crypto", bikul: "Main Saham" },
+            { warga: "Jalan-jalan di Mall", bikul: "Belanja Online" },
+            { warga: "Begadang Tugas", bikul: "Nonton Film" },
+            { warga: "Nongkrong di Cafe", bikul: "Makan di Warung" }
+        ]
+    };
+
+    let players = [];
+    let gameData = [];
+    let currentPlayerIndex = 0;
+    let timerInterval;
+
+    document.getElementById('playerName').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') addPlayer();
+    });
+
+    function addPlayer() {
+        const nameInput = document.getElementById('playerName');
+        const name = nameInput.value.trim();
+        if (name) {
+            players.push(name);
+            nameInput.value = '';
+            updatePlayerList();
+        }
+    }
+
+    function removePlayer(index) {
+        players.splice(index, 1);
+        updatePlayerList();
+    }
+
+    function updatePlayerList() {
+        const list = document.getElementById('playerList');
+        list.innerHTML = '';
+        players.forEach((p, index) => {
+            list.innerHTML += `
+                <li>
+                    <span>${index + 1}. ${p}</span>
+                    <button class="btn-delete" onclick="removePlayer(${index})" title="Hapus Pemain">✕</button>
+                </li>
+            `;
+        });
+        document.getElementById('startBtn').disabled = players.length < 3;
+    }
+
+    function startGame() {
+        if (players.length < 3) return;
+        
+        const selectedCategory = document.getElementById('categorySelect').value;
+        let wordListToUse = [];
+
+        if (selectedCategory === "Semua") {
+            for (let category in wordBank) {
+                wordListToUse = wordListToUse.concat(wordBank[category]);
+            }
+        } else {
+            wordListToUse = wordBank[selectedCategory];
+        }
+
+        const randomWordPair = wordListToUse[Math.floor(Math.random() * wordListToUse.length)];
+        const bikulIndex = Math.floor(Math.random() * players.length);
+        
+        gameData = players.map((name, index) => {
+            return {
+                name: name,
+                role: index === bikulIndex ? 'Bikul' : 'Warga',
+                word: index === bikulIndex ? randomWordPair.bikul : randomWordPair.warga,
+                wargaWord: randomWordPair.warga 
+            };
+        });
+
+        currentPlayerIndex = 0;
+        showScreen('screen-peek');
+        setupPeekScreen();
+    }
+
+    function setupPeekScreen() {
+        document.getElementById('turnDisplay').innerText = `Giliran: ${gameData[currentPlayerIndex].name}`;
+        document.getElementById('secretWord').innerText = gameData[currentPlayerIndex].word;
+        document.getElementById('secretWord').style.display = 'none';
+        document.getElementById('swipeInstruction').style.display = 'block';
+        document.getElementById('btnDone').style.display = 'none';
+    }
+
+    function revealWord() {
+        document.getElementById('secretWord').style.display = 'block';
+        document.getElementById('swipeInstruction').style.display = 'none';
+        document.getElementById('btnDone').style.display = 'block';
+    }
+
+    function nextTurn() {
+        currentPlayerIndex++;
+        if (currentPlayerIndex < gameData.length) {
+            setupPeekScreen();
+        } else {
+            showScreen('screen-timer');
+            startTimer(15 * 60);
+        }
+    }
+
+    const swipeArea = document.getElementById('swipeArea');
+    let startY = 0;
+
+    swipeArea.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; });
+    swipeArea.addEventListener('touchend', (e) => {
+        let endY = e.changedTouches[0].clientY;
+        if (startY - endY > 50) revealWord(); 
+    });
+    swipeArea.addEventListener('click', revealWord); 
+
+    function startTimer(duration) {
+        let timer = duration, minutes, seconds;
+        const display = document.getElementById('timer');
+        
+        timerInterval = setInterval(() => {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                endGame();
+            }
+        }, 1000);
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        const bikulData = gameData.find(p => p.role === 'Bikul');
+        
+        document.getElementById('bikulName').innerText = bikulData.name;
+        document.getElementById('bikulWord').innerText = bikulData.word;
+        document.getElementById('wargaWord').innerText = bikulData.wargaWord;
+        
+        showScreen('screen-result');
+    }
+
+    function resetGame() {
+        players = [];
+        updatePlayerList();
+        showScreen('screen-setup');
+    }
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+</script>
+
+</body>
+</html>
