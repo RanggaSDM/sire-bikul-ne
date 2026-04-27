@@ -229,12 +229,13 @@ li:hover { transform: translateX(3px); background: white; }
 }
 
 /* Footer di luar kotak */
-.app-footer {
-    margin-top: 20px;
+/* Footer di dalam kotak */
+.app-footer-inline {
+    margin-top: 15px;
     font-size: 10px;
-    color: rgba(187, 116, 36, 0.95); /* Warna putih agar kontras dengan BG Candi */
+    color: #7f1d1d; /* Warna merah tua/cokelat agar selaras dengan tema */
     text-align: center;
     font-weight: 600;
     letter-spacing: 0.5px;
-    text-shadow: 0 1px 2px rgba(102, 99, 99, 0.6); /* Bayangan hitam kuat agar teks terbaca */
+    opacity: 0.8;
 }
