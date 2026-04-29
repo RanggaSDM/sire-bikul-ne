@@ -1,4 +1,4 @@
-/* --- CSS RESET & BASE STYLES --- */
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -11,16 +11,15 @@ body {
     min-height: 100vh;
     color: #333;
     
-    /* Warna Dasar */
+
     background-color: #314a75;
     
-    /* Background Image Candi Bentar + Gradien Senja */
-    /* Pastikan nama gambar di folder Anda adalah huruf kecil: bg1.png */
+ 
     background-image: 
         url('bg1.png'),
         linear-gradient(135deg, rgba(49, 74, 117, 0.9) 0%, rgba(225, 112, 29, 0.9) 100%);
         
-    /* Pengaturan Posisi Gambar */
+  
     background-size: cover;          
     background-position: center bottom; 
     background-repeat: no-repeat;    
@@ -34,9 +33,9 @@ body {
     width: 100%;
 }
 
-/* --- CONTAINER UTAMA --- */
+
 .container {
-    /* Gradasi Hangat & Tekstur Batik (Opasitas diatur ke 0.8 atau 80%) */
+  
     background: linear-gradient(135deg, rgba(255, 248, 236, 0.6) 0%, rgba(255, 226, 196, 0.6) 100%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23b91c1c' fill-opacity='0.04'%3E%3Cpath d='M20 0c11 0 20 9 20 20s-9 20-20 20S0 31 0 20 9 0 20 0zm0 2c-9.9 0-18 8.1-18 18s8.1 18 18 18 18-8.1 18-18S29.9 2 20 2zm0 8c5.5 0 10 4.5 10 10s-4.5 10-10 10-10-4.5-10-10 4.5-10 10-10zm0 2c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8z'/%3E%3C/g%3E%3C/svg%3E");
     
@@ -50,7 +49,7 @@ body {
     position: relative;
     overflow: hidden;
     text-align: center;
-    backdrop-filter: blur(8px); /* Sedikit diturunkan agar background lebih jelas */
+    backdrop-filter: blur(8px); 
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     
@@ -81,15 +80,15 @@ h1 { color: #b91c1c; font-size: 30px; margin-bottom: 5px; text-shadow: 0 2px 4px
 
 .header-container {
         display: flex;
-        flex-direction: column;   /* KODE BARU: Mengubah arah susunan menjadi atas-bawah */
+        flex-direction: column;   
         align-items: center;      
         justify-content: center;  
-        gap: 8px;                 /* Jarak antara logo dan judul saya kurangi sedikit agar lebih pas */
+        gap: 8px;                
         margin-bottom: 5px;       
     }
 
     .app-logo {
-        width: 250px;              /* Logonya saya perbesar sedikit agar lebih proporsional di tengah atas */
+        width: 250px;              
         height: auto;
         object-fit: contain;      
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); 
@@ -210,7 +209,7 @@ li:hover { transform: translateX(3px); background: white; }
 .bikul-word-text { color: #b91c1c; font-weight: bold; font-size: 17px; }
 .warga-word-text { font-weight: bold; font-size: 17px; }
 
-/* --- LINK EMAIL & FOOTER --- */
+
 .feedback-link {
     display: inline-block;
     margin-top: 20px;
@@ -228,8 +227,7 @@ li:hover { transform: translateX(3px); background: white; }
     text-decoration: underline;
 }
 
-/* Footer di luar kotak */
-/* Footer di dalam kotak */
+
 .app-footer-inline {
     margin-top: 15px;
     font-size: 10px;
